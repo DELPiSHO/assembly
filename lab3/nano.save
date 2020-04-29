@@ -1,0 +1,38 @@
+asm volatile(
+".intel_syntax noprefix;"
+
+"mov ax,%1;"
+//------—
+"mov cx,16;"//powtorzenie 16 razy
+"mov bx,0;"
+"mov dx,0;"
+"petla:"
+"shl ax;" //przesuwanie bitowe («<)
+
+"jnc przeI;"
+"inc bx;"
+"przeI:"
+
+"jc przeII;"//jezeli do testowegi bita
+"mov bx,0;" //c whodzi 0
+"przeII:" //zeruje bx
+
+"CMP bx,dx;"//porownuje
+"JLE por;" //czy bx jest wiecej niz dx
+"mov dx,bx;"//jezeli tak
+"por:" //to przepisuje do dx
+
+
+"dec cx;"
+"jnz petla;"
+
+
+//------—
+"mov %0,dx;"
+
+
+".att_syntax prefix"
+:"=r"(y)
+:"r"(x)
+:"ax","bx","cx","dx"
+);

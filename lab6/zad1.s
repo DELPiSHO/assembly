@@ -1,0 +1,37 @@
+.intel_syntax noprefix
+.text
+.globl main
+
+main:
+	mov eax,10
+	push eax
+	call f
+	add esp,4
+	push eax
+	mov eax,offset message
+	push eax
+	Call printf
+	add esp,8
+	mov eax,0
+
+	ret
+f:
+	mov eax,[esp+4]
+	cmp eax,1        ;//porownanie eax z 1
+	jne ety1         ;//jesli nie ruwno to zwruc ety1
+	mov eax,1
+	ret
+
+	ety1:
+		push ebx
+		mov ebx,eax
+		dec eax
+		push eax
+		call f
+		add esp,4
+		add eax,ebx
+		pop ebx
+		ret
+.data
+message:
+.asciz "wynik = %i \n"
